@@ -31,6 +31,14 @@ export default {
       return new Response(up.body, { status: up.status, headers: h });
     }
 
-    return env.ASSETS.fetch(new URL(p, url.origin));
+    const res = await env.ASSETS.fetch(new URL(p, url.origin));
+    // HTML must revalidate quickly — the zone's 4h browser-cache TTL made
+    // every page update invisible until caches expired. Images can stay long.
+    if (p.endsWith(".html")) {
+      const r = new Response(res.body, res);
+      r.headers.set("Cache-Control", "public, max-age=120, must-revalidate");
+      return r;
+    }
+    return res;
   },
 };
