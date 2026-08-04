@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read-along — Steingrímur Hermannsson, A Biography</title>
+<style>
+  :root { --bg: #faf7f2; --ink: #2b2620; --muted: #7a6f60; --line: #e5ddd0;
+          --accent: #1c4587; --hl: #f3e4bf; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #16130f; --ink: #ece5da; --muted: #a2988a; --line: #37312a;
+            --accent: #7fa6dd; --hl: #4a3d1f; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 19px/1.75 Georgia, "Times New Roman", serif; }
+  header {
+    position: sticky; top: 0; z-index: 10; background: var(--bg);
+    border-bottom: 1px solid var(--line); padding: .5rem .9rem;
+    display: flex; flex-direction: column; gap: .45rem;
+  }
+  .row { display: flex; align-items: center; gap: .7rem; }
+  a.back { color: var(--accent); text-decoration: none; font-weight: 600;
+           font-size: .9rem; white-space: nowrap;
+           font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  select { flex: 1; min-width: 0; font-size: .85rem; color: var(--ink);
+           background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+           padding: .3rem .4rem;
+           font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  audio { width: 100%; height: 40px; }
+  main { max-width: 680px; margin: 0 auto; padding: 1.5rem 1.2rem 55vh; }
+  h2.ch { font-size: 1.25rem; border-bottom: 1px solid var(--line);
+          padding-bottom: .3rem; margin: 2.2rem 0 1rem; }
+  p.u { margin: 0 0 .95em; cursor: pointer; border-radius: 6px;
+        padding: .15rem .4rem; margin-left: -.4rem; margin-right: -.4rem;
+        transition: background .25s ease; }
+  p.u.active { background: var(--hl); }
+  p.u:hover { outline: 1px solid var(--line); }
+  #status { text-align: center; color: var(--muted); padding: 3rem 1rem;
+            font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+            font-size: .95rem; }
+</style>
+</head>
+<body>
+<header>
+  <div class="row">
+    <a class="back" href="/steingrimur">← Back</a>
+    <select id="chsel"><option>Loading…</option></select>
+  </div>
+  <audio id="aud" controls preload="metadata"></audio>
+</header>
+<main>
+  <div id="status">Loading the read-along…</div>
+  <div id="content"></div>
+</main>
+<script>
+const params = new URLSearchParams(location.search);
+const m = (params.get("m") || "v2_bryan").replace(/[^a-z0-9_]/g, "");
+const aud = document.getElementById("aud");
+const content = document.getElementById("content");
+const chsel = document.getElementById("chsel");
+const POSKEY = "steingrimur-ra-" + m;
+let units = [], nodes = [], active = -1, userScrollUntil = 0;
+
+fetch("/steingrimur/ra/" + m + ".json").then(r => {
+  if (!r.ok) throw new Error("manifest " + r.status);
+  return r.json();
+}).then(data => {
+  aud.src = "/steingrimur/audio/" + data.audio;
+  units = data.units;
+  chsel.innerHTML = "";
+  for (const c of data.chapters) {
+    const o = document.createElement("option");
+    o.value = c.t; o.textContent = c.label;
+    chsel.appendChild(o);
+  }
+  const frag = document.createDocumentFragment();
+  let lastCh = null;
+  const byBase = Object.fromEntries(data.chapters.map(c => [c.base, c]));
+  units.forEach((u, i) => {
+    if (u.c !== lastCh) {
+      lastCh = u.c;
+      const h = document.createElement("h2");
+      h.className = "ch"; h.textContent = byBase[u.c] ? byBase[u.c].label : u.c;
+      frag.appendChild(h);
+    }
+    const p = document.createElement("p");
+    p.className = "u"; p.textContent = u.t;
+    p.onclick = () => { aud.currentTime = u.b + 0.01; aud.play(); };
+    nodes.push(p); frag.appendChild(p);
+  });
+  content.appendChild(frag);
+  document.getElementById("status").style.display = "none";
+  const saved = parseFloat(localStorage.getItem(POSKEY) || "0");
+  if (saved > 5) { aud.currentTime = saved; setTimeout(() => mark(find(saved), false), 300); }
+}).catch(e => {
+  document.getElementById("status").textContent = "Could not load the read-along (" + e.message + ").";
+});
+
+function find(t) {
+  let lo = 0, hi = units.length - 1, best = -1;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    if (units[mid].b <= t) { best = mid; lo = mid + 1; } else hi = mid - 1;
+  }
+  return (best >= 0 && t <= units[best].e + 2) ? best : best;
+}
+
+function mark(i, scroll) {
+  if (i === active || i < 0 || i >= nodes.length) return;
+  if (active >= 0) nodes[active].classList.remove("active");
+  active = i; nodes[i].classList.add("active");
+  if (scroll && Date.now() > userScrollUntil)
+    nodes[i].scrollIntoView({ block: "center", behavior: "smooth" });
+}
+
+aud.addEventListener("timeupdate", () => {
+  if (!units.length) return;
+  mark(find(aud.currentTime), true);
+  if (aud.currentTime > 5) localStorage.setItem(POSKEY, aud.currentTime.toFixed(1));
+  // keep the chapter dropdown in step with playback
+  const opts = [...chsel.options];
+  for (let i = opts.length - 1; i >= 0; i--) {
+    if (aud.currentTime >= parseFloat(opts[i].value)) {
+      if (chsel.selectedIndex !== i) chsel.selectedIndex = i;
+      break;
+    }
+  }
+});
+chsel.addEventListener("change", () => { aud.currentTime = parseFloat(chsel.value) + 0.01; aud.play(); });
+addEventListener("wheel", () => { userScrollUntil = Date.now() + 4000; }, { passive: true });
+addEventListener("touchmove", () => { userScrollUntil = Date.now() + 4000; }, { passive: true });
+</script>
+</body>
+</html>
