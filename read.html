@@ -139,7 +139,9 @@ const onWheel = e => {
   if (e.deltaY > 0) rendition.next(); else rendition.prev();
 };
 document.addEventListener("wheel", onWheel, { passive: true });
-rendition.hooks.content.register(c => c.document.addEventListener("wheel", onWheel, { passive: true }));
+rendition.on("rendered", (section, view) => {
+  try { view.document.addEventListener("wheel", onWheel, { passive: true }); } catch (e) {}
+});
 
 // navigation: buttons, keyboard, swipe
 document.getElementById("prev").onclick = () => rendition.prev();

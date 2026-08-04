@@ -218,7 +218,7 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
       ${(fa => v.books.map((b, bi) => b.available
         ? `<a class="btn ${bi === fa ? "books" : "ghost"}" href="${BASE + b.file}" download>📖 ${bi === fa ? "Open in Apple Books — " : ""}${b.label}${sz(b.size)}</a>`
         : `<span class="btn soon">${b.label} — coming soon</span>`).join(""))(v.books.findIndex(b => b.available))}
-      <a class="btn ghost" href="/steingrimur/read.html?v=5&book=${v.read[0].file}">📖 Read in browser</a>
+      <a class="btn ghost" href="/steingrimur/read.html?v=6&book=${v.read[0].file}">📖 Read in browser</a>
     </div>
     <h3>Read</h3>
     <div class="btns">

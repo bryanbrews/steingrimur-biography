@@ -17,7 +17,8 @@ export default {
       const upHeaders = new Headers();
       const range = req.headers.get("Range");
       if (range) upHeaders.set("Range", range);
-      const up = await fetch(RELEASE + file, { headers: upHeaders, redirect: "follow" });
+      const up = await fetch(RELEASE + file, { headers: upHeaders, redirect: "follow",
+        cf: { cacheEverything: true, cacheTtl: 86400 } });
       if (!up.ok && up.status !== 206) return new Response("upstream error", { status: 502 });
       const h = new Headers();
       h.set("Content-Type", isBook ? "application/epub+zip" : "audio/mp4");
