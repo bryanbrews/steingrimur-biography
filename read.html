@@ -155,7 +155,21 @@ const onWheel = e => {
 };
 document.addEventListener("wheel", onWheel, { passive: true });
 rendition.on("rendered", (section, view) => {
-  try { view.document.addEventListener("wheel", onWheel, { passive: true }); } catch (e) {}
+  try {
+    view.document.addEventListener("wheel", onWheel, { passive: true });
+    // in-book links (e.g. the book's own table of contents) must navigate the
+    // READER, not the site — relative hrefs otherwise resolve to the domain root.
+    view.document.querySelectorAll("a[href]").forEach(a => {
+      a.addEventListener("click", e => {
+        e.preventDefault(); e.stopPropagation();
+        const href = a.getAttribute("href") || "";
+        if (/^https?:/.test(href)) { window.open(href, "_blank"); return; }
+        if (!href || href.startsWith("#")) return;
+        const idx = spineIndexFor(href);
+        rendition.display(idx !== null ? idx : href).catch(() => {});
+      });
+    });
+  } catch (e) {}
 });
 
 // navigation: buttons, keyboard, swipe
