@@ -218,7 +218,7 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
     <h3>Apple Books</h3>
     <div class="btns">
       ${v.books.map(b => b.available
-        ? `<span class="pair"><a class="btn ghost mini" href="${BASE + b.file}" download>📖 ${b.label}${sz(b.size)}</a><a class="btn mini" href="${b.ra ? "/steingrimur/readalong.html?m=" + b.ra : "/steingrimur/read.html?v=7&book=" + v.read[0].file}">${b.ra ? "Read along in browser" : "Read in browser"}</a></span>`
+        ? `<span class="pair"><a class="btn ghost mini" href="${BASE + b.file}" download>📖 ${b.label}${sz(b.size)}</a><a class="btn mini" href="${b.ra ? "/steingrimur/readalong.html?m=" + b.ra : "/steingrimur/read.html?v=8&book=" + v.read[0].file}">${b.ra ? "Read along in browser" : "Read in browser"}</a></span>`
         : `<span class="btn soon mini">${b.label} — coming soon</span>`).join("")}
     </div>
     <h3>Read</h3>

@@ -106,18 +106,33 @@ rendition.display(saved || undefined).then(() => {
 
 // table of contents
 const toc = document.getElementById("toc");
-book.loaded.navigation.then(nav => {
+// resolve every TOC entry to a spine INDEX (plain number): relative hrefs
+// resolve inconsistently on iOS WebKit and fail silently.
+function spineIndexFor(href) {
+  const clean = href.split("#")[0];
+  const tries = [clean, clean.replace(/^\.\.\//, ""), clean.split("/").pop()];
+  for (const t of tries) {
+    try { const item = book.spine.get(t); if (item) return item.index; } catch (e) {}
+  }
+  return null;
+}
+Promise.all([book.loaded.navigation, book.loaded.spine]).then(([nav]) => {
   toc.innerHTML = "";
   const add = (items, depth) => items.forEach(i => {
     const o = document.createElement("option");
-    o.value = i.href;
-    o.textContent = " ".repeat(depth * 2) + i.label.trim();
+    const idx = spineIndexFor(i.href);
+    o.value = idx !== null ? "i:" + idx : i.href;
+    o.textContent = " ".repeat(depth * 2) + i.label.trim();
     toc.appendChild(o);
     if (i.subitems && i.subitems.length) add(i.subitems, depth + 1);
   });
   add(nav.toc, 0);
 });
-toc.addEventListener("change", () => rendition.display(toc.value));
+toc.addEventListener("change", () => {
+  const v = toc.value;
+  const target = v.startsWith("i:") ? parseInt(v.slice(2), 10) : v;
+  rendition.display(target).catch(() => {});
+});
 
 // position: save + show %, keep TOC in sync
 book.ready.then(() => book.locations.generate(1200)).then(() => {
@@ -125,7 +140,7 @@ book.ready.then(() => book.locations.generate(1200)).then(() => {
   rendition.on("relocated", loc => {
     localStorage.setItem(KEY, loc.start.cfi);
     pct.textContent = Math.round(book.locations.percentageFromCfi(loc.start.cfi) * 100) + "%";
-    const opt = [...toc.options].reverse().find(o => loc.start.href && loc.start.href.includes(o.value.split("#")[0]));
+    const opt = [...toc.options].reverse().find(o => o.value === "i:" + loc.start.index) || [...toc.options].reverse().find(o => loc.start.href && loc.start.href.includes(o.value.split("#")[0]));
     if (opt) toc.value = opt.value;
   });
 });
