@@ -90,7 +90,9 @@ rendition.themes.default({
   "p": { "text-align": "left !important", "margin": "0 0 0.9em !important" },
   "h1, h2, h3, h4": { "color": INK + " !important" },
   "a": { "color": (dark ? "#7fa6dd" : "#1c4587") + " !important" },
-  "img": { "max-width": "100% !important", "height": "auto !important" },
+  "img": { "max-width": "100% !important", "max-height": "94vh !important",
+           "width": "auto !important", "height": "auto !important",
+           "display": "block !important", "margin": "0 auto !important" },
 });
 let fs = parseInt(localStorage.getItem("steingrimur-fontsize") || "120", 10);
 const applyFs = () => { rendition.themes.fontSize(fs + "%"); localStorage.setItem("steingrimur-fontsize", fs); };
@@ -127,6 +129,17 @@ book.ready.then(() => book.locations.generate(1200)).then(() => {
     if (opt) toc.value = opt.value;
   });
 });
+
+// desktop: scroll wheel turns pages (debounced so one notch = one page)
+let wheelAt = 0;
+const onWheel = e => {
+  const now = Date.now();
+  if (now - wheelAt < 450 || Math.abs(e.deltaY) < 8) return;
+  wheelAt = now;
+  if (e.deltaY > 0) rendition.next(); else rendition.prev();
+};
+document.addEventListener("wheel", onWheel, { passive: true });
+rendition.hooks.content.register(c => c.document.addEventListener("wheel", onWheel, { passive: true }));
 
 // navigation: buttons, keyboard, swipe
 document.getElementById("prev").onclick = () => rendition.prev();
