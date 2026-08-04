@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steingrímur Hermannsson — A Biography</title>
+<meta name="description" content="The biography of Steingrímur Hermannsson, Prime Minister of Iceland — English translation. Read online, download, or listen: including in Steingrímur's own voice.">
+<style>
+  :root {
+    --bg: #faf7f2; --card: #ffffff; --ink: #2b2620; --muted: #7a6f60;
+    --accent: #1c4587; --accent-ink: #ffffff; --line: #e5ddd0;
+    --disabled: #b8b0a3; --books: #ff9500;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16130f; --card: #211d18; --ink: #ece5da; --muted: #a2988a;
+      --accent: #7fa6dd; --accent-ink: #101623; --line: #37312a;
+      --disabled: #5c554b; --books: #ff9f0a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 17px/1.6 Georgia, "Times New Roman", serif; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+  header { text-align: center; margin-bottom: 2rem; }
+  header img.cover { max-width: 220px; width: 55%; border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.25); margin-bottom: 1.1rem; }
+  h1 { font-size: clamp(1.4rem, 5vw, 1.9rem); margin: 0 0 .35rem; }
+  .sub { color: var(--muted); font-style: italic; margin: 0; }
+  h2 { font-size: 1.35rem; border-bottom: 1px solid var(--line);
+       padding-bottom: .4rem; margin: 2.2rem 0 1rem; }
+  h3 { font-size: .95rem; margin: 1.4rem 0 .6rem; color: var(--muted);
+       text-transform: uppercase; letter-spacing: .08em; font-weight: 600;
+       font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .card { background: var(--card); border: 1px solid var(--line);
+          border-radius: 12px; padding: 1.2rem 1.2rem 1.4rem; margin-bottom: 1.6rem; }
+  .voice { margin-bottom: 1.2rem; }
+  .voice .vname { font-weight: 700; }
+  .voice .vnote { color: var(--muted); font-size: .92rem; }
+  audio { width: 100%; margin-top: .45rem; }
+  .btns { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .55rem; }
+  a.btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .65rem 1rem; border-radius: 9px; min-height: 44px;
+    background: var(--accent); color: var(--accent-ink); text-decoration: none;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: .95rem; font-weight: 600; line-height: 1.2;
+  }
+  a.btn .sz { font-weight: 400; opacity: .75; font-size: .85em; }
+  a.btn.books { background: var(--books); color: #fff; font-size: 1rem; }
+  a.btn.ghost { background: transparent; color: var(--accent);
+                border: 1.5px solid var(--accent); }
+  span.btn.soon {
+    display: inline-flex; align-items: center; padding: .65rem 1rem;
+    border-radius: 9px; min-height: 44px; color: var(--disabled);
+    border: 1.5px dashed var(--disabled);
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: .95rem;
+  }
+  .howto { background: var(--card); border: 1px solid var(--line);
+           border-radius: 12px; padding: 1.1rem 1.2rem; font-size: .95rem; }
+  .howto summary { cursor: pointer; font-weight: 700; min-height: 32px; }
+  .howto ol { margin: .75rem 0 .25rem; padding-left: 1.4rem; }
+  .howto li { margin-bottom: .35rem; }
+  .viewer { margin-top: .8rem; }
+  .viewer iframe { width: 100%; height: 70vh; border: 1px solid var(--line);
+                   border-radius: 8px; background: #fff; }
+  .fine { color: var(--muted); font-size: .85rem; margin-top: 2.5rem; text-align: center; }
+  @media (max-width: 480px) {
+    .btns { flex-direction: column; align-items: stretch; }
+    a.btn, span.btn.soon { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <img class="cover" src="cover.jpg" alt="Book cover: Steingrímur Hermannsson" onerror="this.style.display='none'">
+  <h1>Steingrímur Hermannsson — A Biography</h1>
+  <p class="sub">The life of Iceland's Prime Minister, translated into English by his
+  grandson. Read it — or hear it, including in Steingrímur's own voice.</p>
+</header>
+
+<details class="howto" open>
+  <summary>📱 iPhone &amp; iPad — get it in Apple Books</summary>
+  <ol>
+    <li>Tap an <strong>Open in Apple Books</strong> button below.</li>
+    <li>When the download finishes, tap the <strong>⬇︎ arrow</strong> in Safari's
+        toolbar, then tap the file name.</li>
+    <li>Choose <strong>Open in Books</strong> (or tap Share <span aria-hidden="true">⎋</span>
+        → <strong>Books</strong>).</li>
+  </ol>
+  <p style="margin:.5rem 0 0">The read-along edition plays the narration inside
+  Books while the text follows along. The standalone audiobook files (.m4b) are for
+  Apple Books on a Mac or audiobook apps like BookPlayer on iPhone.</p>
+</details>
+
+<div id="volumes"></div>
+
+<p class="fine">Free downloads. Files are hosted on GitHub; press play to stream —
+nothing loads until you do.</p>
+
+</div>
+<script>
+const BASE = "https://github.com/bryanbrews/steingrimur-biography/releases/download/v1/";
+const VOLUMES = [
+  {
+    title: "Volume 1",
+    audio: [
+      { name: "Narrator edition (Johann)", note: "Icelandic-accented storyteller",
+        file: "Steingrimur_Vol1_Johann_voice.m4b", size: "509 MB", available: true },
+      { name: "Steingrímur's own voice", note: "cloned from his 1980s UN address — the statesman reads his own life",
+        file: "Steingrimur_Vol1_Steingrimur_voice.m4b", size: "", available: false },
+      { name: "Bryan's voice", note: "read by the translator, his grandson",
+        file: "Steingrimur_Vol1_Bryan_voice.m4b", size: "", available: false },
+    ],
+    books: { label: "Open in Apple Books — read-along edition",
+             file: "Steingrimur_Vol1_ReadAlong_Johann.epub", size: "550 MB", available: true },
+    read: [
+      { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol1_English.epub", size: "45 MB", available: true },
+      { label: "⬇ PDF", file: "Steingrimur_Vol1_English.pdf", size: "47 MB", available: true },
+    ],
+    pdf: "Steingrimur_Vol1_English.pdf",
+  },
+  {
+    title: "Volume 2",
+    audio: [
+      { name: "Narrator edition", note: "new Icelandic narrator — in production",
+        file: "Steingrimur_Vol2_Narrator_voice.m4b", size: "", available: false },
+      { name: "Steingrímur's own voice", note: "cloned from his 1980s UN address",
+        file: "Steingrimur_Vol2_Steingrimur_voice.m4b", size: "", available: false },
+      { name: "Bryan's voice", note: "read by the translator, his grandson",
+        file: "Steingrimur_Vol2_Bryan_voice.m4b", size: "", available: false },
+    ],
+    books: { label: "Open in Apple Books — read-along edition",
+             file: "Steingrimur_Vol2_ReadAlong.epub", size: "", available: false },
+    read: [
+      { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol2_English.epub", size: "41 MB", available: true },
+      { label: "⬇ PDF", file: "Steingrimur_Vol2_English.pdf", size: "43 MB", available: true },
+    ],
+    pdf: "Steingrimur_Vol2_English.pdf",
+  },
+];
+
+const sz = s => s ? ` <span class="sz">${s}</span>` : "";
+document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
+  <h2>${v.title}</h2>
+  <div class="card">
+    <h3>Listen</h3>
+    ${v.audio.map(a => `
+      <div class="voice">
+        <span class="vname">${a.name}</span>
+        <span class="vnote"> — ${a.note}</span>
+        ${a.available
+          ? `<audio controls preload="none" src="${BASE + a.file}"></audio>
+             <div class="btns"><a class="btn ghost" href="${BASE + a.file}" download>⬇ Download audiobook (.m4b)${sz(a.size)}</a></div>`
+          : `<div class="btns"><span class="btn soon">Coming soon</span></div>`}
+      </div>`).join("")}
+    <h3>Apple Books</h3>
+    <div class="btns">
+      ${v.books.available
+        ? `<a class="btn books" href="${BASE + v.books.file}" download>📖 ${v.books.label}${sz(v.books.size)}</a>`
+        : `<span class="btn soon">Read-along edition — coming soon</span>`}
+    </div>
+    <h3>Read</h3>
+    <div class="btns">
+      ${v.read.filter(r => r.available).map(r =>
+        `<a class="btn ghost" href="${BASE + r.file}" download>${r.label}${sz(r.size)}</a>`).join("")}
+      <a class="btn" href="${BASE + v.pdf}" target="_blank" rel="noopener">👁 Read online (PDF)</a>
+    </div>
+  </div>`).join("");
+</script>
+</body>
+</html>
