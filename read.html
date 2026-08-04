@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read — Steingrímur Hermannsson, A Biography</title>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/epubjs@0.3.93/dist/epub.min.js"></script>
+<style>
+  :root { --bg: #faf7f2; --ink: #2b2620; --muted: #7a6f60; --line: #e5ddd0;
+          --accent: #1c4587; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #16130f; --ink: #ece5da; --muted: #a2988a; --line: #37312a;
+            --accent: #7fa6dd; }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+         display: flex; flex-direction: column; }
+  header {
+    display: flex; align-items: center; gap: .7rem; padding: .55rem .9rem;
+    border-bottom: 1px solid var(--line); flex: none;
+  }
+  header a.back { color: var(--accent); text-decoration: none; font-weight: 600;
+                  font-size: .9rem; white-space: nowrap; }
+  header select {
+    flex: 1; min-width: 0; font: inherit; font-size: .85rem; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+    padding: .3rem .4rem;
+  }
+  header .pct { color: var(--muted); font-size: .8rem; white-space: nowrap; }
+  #viewer { flex: 1; min-height: 0; }
+  #viewer iframe { border: none; }
+  .nav {
+    position: fixed; top: 52px; bottom: 0; width: 18%; max-width: 140px;
+    display: flex; align-items: center; z-index: 5; cursor: pointer;
+    color: transparent; font-size: 2rem; user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav:hover { color: var(--muted); }
+  .nav.prev { left: 0; justify-content: flex-start; padding-left: .4rem; }
+  .nav.next { right: 0; justify-content: flex-end; padding-right: .4rem; }
+  #loading {
+    position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; color: var(--muted); font-size: .95rem;
+    flex-direction: column; gap: .6rem;
+  }
+  main { position: relative; flex: 1; min-height: 0; display: flex; }
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="/steingrimur">← Back</a>
+  <select id="toc"><option>Loading…</option></select>
+  <span class="pct" id="pct"></span>
+</header>
+<main>
+  <div id="loading">Loading the book…<span id="loadnote" style="font-size:.8rem"></span></div>
+  <div id="viewer" style="width:100%"></div>
+</main>
+<div class="nav prev" id="prev">‹</div>
+<div class="nav next" id="next">›</div>
+<script>
+const params = new URLSearchParams(location.search);
+const file = (params.get("book") || "Steingrimur_Vol1_English.epub").replace(/[^A-Za-z0-9._-]/g, "");
+const KEY = "steingrimur-pos-" + file;
+document.getElementById("loadnote").textContent = "(" + file.replace(/_/g, " ").replace(".epub", "") + ")";
+
+const book = ePub("/steingrimur/books/" + file);
+const rendition = book.renderTo("viewer", { width: "100%", height: "100%", spread: "auto" });
+const saved = localStorage.getItem(KEY);
+rendition.display(saved || undefined).then(() => {
+  document.getElementById("loading").style.display = "none";
+});
+
+// table of contents
+const toc = document.getElementById("toc");
+book.loaded.navigation.then(nav => {
+  toc.innerHTML = "";
+  const add = (items, depth) => items.forEach(i => {
+    const o = document.createElement("option");
+    o.value = i.href;
+    o.textContent = " ".repeat(depth * 2) + i.label.trim();
+    toc.appendChild(o);
+    if (i.subitems && i.subitems.length) add(i.subitems, depth + 1);
+  });
+  add(nav.toc, 0);
+});
+toc.addEventListener("change", () => rendition.display(toc.value));
+
+// position: save + show %, keep TOC in sync
+book.ready.then(() => book.locations.generate(1200)).then(() => {
+  const pct = document.getElementById("pct");
+  rendition.on("relocated", loc => {
+    localStorage.setItem(KEY, loc.start.cfi);
+    pct.textContent = Math.round(book.locations.percentageFromCfi(loc.start.cfi) * 100) + "%";
+    const opt = [...toc.options].reverse().find(o => loc.start.href && loc.start.href.includes(o.value.split("#")[0]));
+    if (opt) toc.value = opt.value;
+  });
+});
+
+// navigation: buttons, keyboard, swipe
+document.getElementById("prev").onclick = () => rendition.prev();
+document.getElementById("next").onclick = () => rendition.next();
+const key = e => { if (e.key === "ArrowLeft") rendition.prev(); if (e.key === "ArrowRight") rendition.next(); };
+document.addEventListener("keyup", key);
+rendition.on("keyup", key);
+let x0 = null;
+rendition.on("touchstart", e => { x0 = e.changedTouches[0].screenX; });
+rendition.on("touchend", e => {
+  if (x0 === null) return;
+  const dx = e.changedTouches[0].screenX - x0;
+  if (dx > 60) rendition.prev(); else if (dx < -60) rendition.next();
+  x0 = null;
+});
+</script>
+</body>
+</html>
