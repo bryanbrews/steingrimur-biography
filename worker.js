@@ -17,7 +17,9 @@ export default {
       const upHeaders = new Headers();
       const range = req.headers.get("Range");
       if (range) upHeaders.set("Range", range);
-      const up = await fetch(RELEASE + file, { headers: upHeaders, redirect: "follow",
+      // REV busts the edge cache when release assets are replaced in place
+      const REV = "2";
+      const up = await fetch(RELEASE + file + "?r=" + REV, { headers: upHeaders, redirect: "follow",
         cf: { cacheEverything: true, cacheTtl: 86400 } });
       if (!up.ok && up.status !== 206) return new Response("upstream error", { status: 502 });
       const h = new Headers();
