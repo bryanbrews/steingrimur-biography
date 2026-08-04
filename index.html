@@ -116,12 +116,14 @@ const VOLUMES = [
         file: "Steingrimur_Vol1_Bryan_voice.m4b", size: "409 MB", available: true },
     ],
     books: [
-      { label: "Open in Apple Books — read-along, Bryan's voice",
+      { label: "Read-along, Bryan's voice",
         file: "Steingrimur_Vol1_ReadAlong_Bryan.epub", size: "427 MB", available: true },
       { label: "Read-along, Steingrímur's voice",
         file: "Steingrimur_Vol1_ReadAlong_Steingrimur.epub", size: "467 MB", available: true },
       { label: "Read-along, Johann narration",
         file: "Steingrimur_Vol1_ReadAlong_Johann.epub", size: "550 MB", available: true },
+      { label: "Ebook only — no audio", file: "Steingrimur_Vol1_English.epub",
+        size: "45 MB", available: true },
     ],
     read: [
       { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol1_English.epub", size: "45 MB", available: true },
@@ -140,8 +142,10 @@ const VOLUMES = [
         file: "Steingrimur_Vol2_Bryan_voice.m4b", size: "", available: false },
     ],
     books: [
-      { label: "Open in Apple Books — read-along, Bryan's voice",
+      { label: "Read-along, Bryan's voice",
         file: "Steingrimur_Vol2_ReadAlong_Bryan.epub", size: "", available: false },
+      { label: "Ebook only — no audio", file: "Steingrimur_Vol2_English.epub",
+        size: "41 MB", available: true },
     ],
     read: [
       { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol2_English.epub", size: "41 MB", available: true },
@@ -167,9 +171,9 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
       </div>`).join("")}
     <h3>Apple Books</h3>
     <div class="btns">
-      ${v.books.map((b, bi) => b.available
-        ? `<a class="btn ${bi === 0 ? "books" : "ghost"}" href="${BASE + b.file}" download>📖 ${b.label}${sz(b.size)}</a>`
-        : `<span class="btn soon">${b.label} — coming soon</span>`).join("")}
+      ${(fa => v.books.map((b, bi) => b.available
+        ? `<a class="btn ${bi === fa ? "books" : "ghost"}" href="${BASE + b.file}" download>📖 ${bi === fa ? "Open in Apple Books — " : ""}${b.label}${sz(b.size)}</a>`
+        : `<span class="btn soon">${b.label} — coming soon</span>`).join(""))(v.books.findIndex(b => b.available))}
     </div>
     <h3>Read</h3>
     <div class="btns">
