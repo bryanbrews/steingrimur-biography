@@ -9,13 +9,13 @@
   :root {
     --bg: #faf7f2; --card: #ffffff; --ink: #2b2620; --muted: #7a6f60;
     --accent: #1c4587; --accent-ink: #ffffff; --line: #e5ddd0;
-    --disabled: #b8b0a3; --books: #ff9500;
+    --disabled: #b8b0a3;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #16130f; --card: #211d18; --ink: #ece5da; --muted: #a2988a;
       --accent: #7fa6dd; --accent-ink: #101623; --line: #37312a;
-      --disabled: #5c554b; --books: #ff9f0a;
+      --disabled: #5c554b;
     }
   }
   * { box-sizing: border-box; }
@@ -48,7 +48,6 @@
     font-size: .95rem; font-weight: 600; line-height: 1.2;
   }
   a.btn .sz { font-weight: 400; opacity: .75; font-size: .85em; }
-  a.btn.books { background: var(--books); color: #fff; font-size: 1rem; }
   a.btn.ghost { background: transparent; color: var(--accent);
                 border: 1.5px solid var(--accent); }
   span.btn.soon {
