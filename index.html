@@ -65,6 +65,16 @@
   .viewer { margin-top: .8rem; }
   .viewer iframe { width: 100%; height: 70vh; border: 1px solid var(--line);
                    border-radius: 8px; background: #fff; }
+  details.chapters { margin-top: .35rem; font-size: .9rem; }
+  details.chapters summary { cursor: pointer; color: var(--muted);
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; min-height: 32px; }
+  .chlist { display: flex; flex-direction: column; gap: 2px; margin-top: .4rem; }
+  .chlist button { display: flex; gap: .7rem; align-items: baseline; text-align: left;
+    background: none; border: 0; border-radius: 6px; padding: .45rem .5rem;
+    color: var(--ink); font: inherit; cursor: pointer; }
+  .chlist button:hover { background: var(--line); }
+  .chlist .cht { color: var(--muted); font-variant-numeric: tabular-nums;
+    font-size: .85em; flex: none; width: 3.6em; }
   .fine { color: var(--muted); font-size: .85rem; margin-top: 2.5rem; text-align: center; }
   .volgrid { display: flex; gap: 1.3rem; align-items: flex-start; }
   .volcover { width: 170px; flex: none; border-radius: 6px;
@@ -112,6 +122,7 @@ nothing loads until you do.</p>
 </div>
 <script>
 const BASE = "https://github.com/bryanbrews/steingrimur-biography/releases/download/v1/";
+const CHAPTERS = {"Steingrimur_Vol1_Johann_voice.m4b":[{"t":0.0,"title":"Foreword"},{"t":478.3,"title":"Fragments of Memory from Childhood"},{"t":6140.9,"title":"The Years in the Prime Minister's Residence"},{"t":12818.2,"title":"Sturdy Boys, the War Years, and Girl Troubles"},{"t":18142.1,"title":"Student Years and Great Ambition"},{"t":24401.5,"title":"The Promised Land"},{"t":31608.1,"title":"Years of Enterprise in Iceland"},{"t":37151.1,"title":"Broken Hopes and the Later American Years"},{"t":43697.9,"title":"Divorce and the Battle for the Children"},{"t":50852.2,"title":"Research, Marriage, and Wrestling Bouts"},{"t":56019.9,"title":"A New Beginning"},{"t":62011.6,"title":"Epilogue"}],"Steingrimur_Vol1_Steingrimur_voice.m4b":[{"t":0.0,"title":"Foreword"},{"t":431.4,"title":"Fragments of Memory from Childhood"},{"t":5650.4,"title":"The Years in the Prime Minister's Residence"},{"t":11667.8,"title":"\"Sturdy Boys\", the War Years and Girl Trouble"},{"t":16252.8,"title":"Student Years and Great Ambition"},{"t":21663.5,"title":"The Promised Land"},{"t":27877.8,"title":"Years of Enterprise in Iceland"},{"t":32627.9,"title":"Broken Hopes and the Later American Years"},{"t":38365.5,"title":"Divorce and the Battle for the Children"},{"t":44512.2,"title":"Research, Marriage, and Wrestling Bouts"},{"t":48969.1,"title":"A New Beginning"},{"t":54157.6,"title":"Epilogue"}],"Steingrimur_Vol1_Bryan_voice.m4b":[{"t":0.0,"title":"Intro from the Narrator and Grandson, Bryan"},{"t":51.3,"title":"Foreword"},{"t":451.4,"title":"Fragments of Memory from Childhood"},{"t":4838.4,"title":"The Years in the Prime Minister's Residence"},{"t":10091.8,"title":"\"Sturdy Boys\", the War Years and Girl Trouble"},{"t":14326.5,"title":"Student Years and Great Ambition"},{"t":19218.9,"title":"The Promised Land"},{"t":24876.5,"title":"Years of Enterprise in Iceland"},{"t":29267.7,"title":"Broken Hopes and the Later American Years"},{"t":34530.0,"title":"Divorce and the Battle for the Children"},{"t":40188.7,"title":"Research, Marriage, and Wrestling Bouts"},{"t":44303.8,"title":"A New Beginning"},{"t":49048.2,"title":"Epilogue"}]};
 const VOLUMES = [
   {
     title: "Volume 1",
@@ -165,6 +176,10 @@ const VOLUMES = [
   },
 ];
 
+function fmt(s) {
+  const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60);
+  return h ? `${h}:${String(m).padStart(2, "0")}` : `0:${String(m).padStart(2, "0")}`;
+}
 const sz = s => s ? ` <span class="sz">${s}</span>` : "";
 document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
   <h2>${v.title}</h2>
@@ -173,12 +188,16 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
     <img class="volcover" src="${v.cover}" alt="${v.title} book cover" loading="lazy">
     <div class="volcontent">
     <h3 style="margin-top:0">Listen</h3>
-    ${v.audio.map(a => `
+    ${v.audio.map((a, ai) => `
       <div class="voice">
         <span class="vname">${a.name}</span>
         <span class="vnote"> — ${a.note}</span>
         ${a.available
-          ? `<audio controls preload="none" src="${BASE + a.file}"></audio>
+          ? `<audio controls preload="none" id="aud-${vi}-${ai}" src="${BASE + a.file}"></audio>
+             ${(CHAPTERS[a.file] || []).length ? `<details class="chapters"><summary>Chapters — tap to skip</summary>
+               <div class="chlist">${CHAPTERS[a.file].map(c =>
+                 `<button data-aud="aud-${vi}-${ai}" data-t="${c.t}"><span class="cht">${fmt(c.t)}</span><span>${c.title}</span></button>`).join("")}
+               </div></details>` : ""}
              <div class="btns"><a class="btn ghost" href="${BASE + a.file}" download>⬇ Download audiobook (.m4b)${sz(a.size)}</a></div>`
           : `<div class="btns"><span class="btn soon">Coming soon</span></div>`}
       </div>`).join("")}
@@ -197,6 +216,16 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
     </div>
    </div>
   </div>`).join("");
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button[data-aud]");
+  if (!b) return;
+  const aud = document.getElementById(b.dataset.aud);
+  document.querySelectorAll("audio").forEach(a => { if (a !== aud) a.pause(); });
+  const go = () => { aud.currentTime = +b.dataset.t; aud.play(); };
+  if (aud.readyState >= 1) go();
+  else { aud.addEventListener("loadedmetadata", go, { once: true }); aud.load(); }
+});
 </script>
 </body>
 </html>
