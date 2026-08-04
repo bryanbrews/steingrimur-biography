@@ -58,6 +58,8 @@
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     font-size: .95rem;
   }
+  a.btn.mini { padding: .3rem .6rem; min-height: 0; font-size: .78rem;
+    font-weight: 500; border-width: 1px; opacity: .85; }
   .howto { background: var(--card); border: 1px solid var(--line);
            border-radius: 12px; padding: 1.1rem 1.2rem; font-size: .95rem; }
   .howto summary { cursor: pointer; font-weight: 700; min-height: 32px; }
@@ -87,8 +89,9 @@
     .volcontent { width: 100%; }
   }
   @media (max-width: 480px) {
-    .btns { flex-direction: column; align-items: stretch; }
-    a.btn, span.btn.soon { justify-content: center; }
+    .btns { align-items: center; }
+    a.btn:not(.mini) { flex: 1 1 100%; justify-content: center; }
+    span.btn.soon { flex: 1 1 100%; justify-content: center; }
   }
 </style>
 </head>
@@ -109,8 +112,9 @@
   <summary>📱 iPhone &amp; iPad — get it in Apple Books instructions</summary>
   <ol>
     <li>Tap an <strong>Open in Apple Books</strong> button below.</li>
-    <li>When the download finishes, tap the <strong>⬇︎ arrow</strong> in Safari's
-        toolbar, then tap the file name.</li>
+    <li>When the download finishes: in <strong>Safari</strong>, tap the
+        <strong>⬇︎ arrow</strong> in the toolbar, then tap the file name; in
+        <strong>Chrome</strong>, tap <strong>⋮ → Downloads</strong>, then tap the file.</li>
     <li>Choose <strong>Open in Books</strong> (or tap Share <span aria-hidden="true">⎋</span>
         → <strong>Books</strong>).</li>
   </ol>
@@ -207,7 +211,7 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
                <div class="chlist">${CHAPTERS[a.file].map(c =>
                  `<button data-aud="aud-${vi}-${ai}" data-t="${c.t}"><span class="cht">${fmt(c.t)}</span><span>${c.title}</span></button>`).join("")}
                </div></details>` : ""}
-             <div class="btns"><a class="btn ghost" href="${BASE + a.file}" download>⬇ Download audiobook (.m4b)${sz(a.size)}</a></div>`
+             <div class="btns"><a class="btn ghost mini" href="${BASE + a.file}" download>⬇ Download audiobook (.m4b)${sz(a.size)}</a></div>`
           : `<div class="btns"><span class="btn soon">Coming soon</span></div>`}
       </div>`).join("")}
     <h3>Apple Books</h3>
@@ -219,8 +223,8 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
     <h3>Read</h3>
     <div class="btns">
       ${v.read.filter(r => r.available).map(r =>
-        `<a class="btn ghost" href="${BASE + r.file}" download>${r.label}${sz(r.size)}</a>`).join("")}
-      <a class="btn" href="${BASE + v.pdf}" target="_blank" rel="noopener">👁 Read online (PDF)</a>
+        `<a class="btn ghost mini" href="${BASE + r.file}" download>${r.label}${sz(r.size)}</a>`).join("")}
+      <a class="btn ghost mini" href="${BASE + v.pdf}" target="_blank" rel="noopener">👁 Read online (PDF)</a>
     </div>
     </div>
    </div>
