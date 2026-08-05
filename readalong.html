@@ -127,7 +127,9 @@ function mark(i, scroll, force) {
     active = i; nodes[i].classList.add("active");
   } else if (!force) return;
   if (scroll && (force || Date.now() > userScrollUntil)) {
-    try { nodes[i].scrollIntoView({ block: "center", behavior: "smooth" }); }
+    // explicit jumps: instant (smooth animation can be dropped by mobile
+    // browsers under load); gentle smooth follow during normal playback
+    try { nodes[i].scrollIntoView({ block: "center", behavior: force ? "auto" : "smooth" }); }
     catch (e) { nodes[i].scrollIntoView(); }
   }
 }
