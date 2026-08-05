@@ -64,7 +64,14 @@ let units = [], nodes = [], active = -1, userScrollUntil = 0;
 
 // iOS ignores currentTime until metadata is loaded — queue the seek if needed
 function seekTo(t, andPlay) {
-  const go = () => { aud.currentTime = t; if (andPlay) aud.play(); };
+  const go = () => {
+    aud.currentTime = t; if (andPlay) aud.play();
+    // explicit navigation: always jump the text there, overriding the
+    // manual-scroll guard (iOS fires touch events from the chapter picker)
+    userScrollUntil = 0;
+    setTimeout(() => mark(find(aud.currentTime), true, true), 350);
+    setTimeout(() => mark(find(aud.currentTime), true, true), 1200);
+  };
   if (aud.readyState >= 1) go();
   else { aud.addEventListener("loadedmetadata", go, { once: true }); aud.load(); }
 }
@@ -113,12 +120,16 @@ function find(t) {
   return (best >= 0 && t <= units[best].e + 2) ? best : best;
 }
 
-function mark(i, scroll) {
-  if (i === active || i < 0 || i >= nodes.length) return;
-  if (active >= 0) nodes[active].classList.remove("active");
-  active = i; nodes[i].classList.add("active");
-  if (scroll && Date.now() > userScrollUntil)
-    nodes[i].scrollIntoView({ block: "center", behavior: "smooth" });
+function mark(i, scroll, force) {
+  if (i < 0 || i >= nodes.length) return;
+  if (i !== active) {
+    if (active >= 0) nodes[active].classList.remove("active");
+    active = i; nodes[i].classList.add("active");
+  } else if (!force) return;
+  if (scroll && (force || Date.now() > userScrollUntil)) {
+    try { nodes[i].scrollIntoView({ block: "center", behavior: "smooth" }); }
+    catch (e) { nodes[i].scrollIntoView(); }
+  }
 }
 
 aud.addEventListener("timeupdate", () => {
