@@ -9,69 +9,54 @@
   :root {
     --bg: #faf7f2; --card: #ffffff; --ink: #2b2620; --muted: #7a6f60;
     --accent: #1c4587; --accent-ink: #ffffff; --line: #e5ddd0;
-    --disabled: #b8b0a3;
+    --soft: #f1ece3;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #16130f; --card: #211d18; --ink: #ece5da; --muted: #a2988a;
       --accent: #7fa6dd; --accent-ink: #101623; --line: #37312a;
-      --disabled: #5c554b;
+      --soft: #2a251e;
     }
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
          font: 17px/1.6 Georgia, "Times New Roman", serif; }
   .wrap { max-width: 880px; margin: 0 auto; padding: 2rem 1rem 4rem; }
-  header { text-align: center; margin-bottom: 2rem; }
-  header img.cover { max-width: 220px; width: 55%; border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,.25); margin-bottom: 1.1rem; }
+  header.top { text-align: center; margin-bottom: 2rem; }
   h1 { font-size: clamp(1.4rem, 5vw, 1.9rem); margin: 0 0 .35rem; }
   .sub { color: var(--muted); font-style: italic; margin: 0 auto; max-width: 640px; }
   .sub a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
   h2 { font-size: 1.35rem; border-bottom: 1px solid var(--line);
        padding-bottom: .4rem; margin: 2.2rem 0 1rem; }
-  h3 { font-size: .95rem; margin: 1.4rem 0 .6rem; color: var(--muted);
-       text-transform: uppercase; letter-spacing: .08em; font-weight: 600;
-       font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
   .card { background: var(--card); border: 1px solid var(--line);
           border-radius: 12px; padding: 1.2rem 1.2rem 1.4rem; margin-bottom: 1.6rem; }
-  .voice { margin-bottom: 1.2rem; }
+  section.blk { border-top: 1px solid var(--line); margin-top: 1.5rem; padding-top: 1.1rem; }
+  section.blk:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+  .blk h3 { font-size: 1.05rem; margin: 0 0 .15rem;
+            font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .blk .desc { color: var(--muted); font-size: .9rem; margin: 0 0 .8rem;
+               font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  .voice { margin-bottom: 1.15rem; }
   .voice .vname { font-weight: 700; }
-  .voice .vnote { color: var(--muted); font-size: .92rem; }
-  audio { width: 100%; margin-top: .45rem; }
-  .btns { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .55rem; }
+  .voice .vnote { color: var(--muted); font-size: .9rem; }
+  audio { width: 100%; margin-top: .4rem; }
+  .btns { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .55rem; align-items: center; }
   a.btn {
-    display: inline-flex; align-items: center; gap: .4rem;
-    padding: .65rem 1rem; border-radius: 9px; min-height: 44px;
+    display: inline-flex; align-items: center; gap: .35rem;
+    padding: .5rem .9rem; border-radius: 9px;
     background: var(--accent); color: var(--accent-ink); text-decoration: none;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    font-size: .95rem; font-weight: 600; line-height: 1.2;
+    font-size: .9rem; font-weight: 600; line-height: 1.25;
   }
-  a.btn .sz { font-weight: 400; opacity: .75; font-size: .85em; }
-  a.btn.ghost { background: transparent; color: var(--accent);
-                border: 1.5px solid var(--accent); }
-  span.btn.soon {
-    display: inline-flex; align-items: center; padding: .65rem 1rem;
-    border-radius: 9px; min-height: 44px; color: var(--disabled);
-    border: 1.5px dashed var(--disabled);
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    font-size: .95rem;
-  }
-  a.btn.mini { padding: .3rem .6rem; min-height: 0; font-size: .78rem;
-    font-weight: 500; border-width: 1px; opacity: .85; }
-  span.btn.soon.mini { padding: .3rem .6rem; min-height: 0; font-size: .78rem; }
-  .pair { display: inline-flex; gap: .35rem; flex-wrap: wrap; align-items: center; }
-  .howto { background: var(--card); border: 1px solid var(--line);
-           border-radius: 12px; padding: 1.1rem 1.2rem; font-size: .95rem; }
-  .howto summary { cursor: pointer; font-weight: 700; min-height: 32px; }
-  .howto ol { margin: .75rem 0 .25rem; padding-left: 1.4rem; }
-  .howto li { margin-bottom: .35rem; }
-  .viewer { margin-top: .8rem; }
-  .viewer iframe { width: 100%; height: 70vh; border: 1px solid var(--line);
-                   border-radius: 8px; background: #fff; }
-  details.chapters { margin-top: .35rem; font-size: .9rem; }
-  details.chapters summary { cursor: pointer; color: var(--muted);
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; min-height: 32px; }
+  a.btn .sz { font-weight: 400; opacity: .75; font-size: .82em; }
+  a.btn.dl { background: transparent; color: var(--accent);
+             border: 1px solid var(--accent); font-weight: 500;
+             padding: .35rem .65rem; font-size: .8rem; opacity: .9; }
+  .hint { width: 100%; color: var(--muted); font-size: .8rem; margin-top: .5rem;
+          font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  details.chapters { margin-top: .3rem; font-size: .9rem; }
+  details.chapters summary { cursor: pointer; color: var(--muted); min-height: 30px;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
   .chlist { display: flex; flex-direction: column; gap: 2px; margin-top: .4rem; }
   .chlist button { display: flex; gap: .7rem; align-items: baseline; text-align: left;
     background: none; border: 0; border-radius: 6px; padding: .45rem .5rem;
@@ -79,6 +64,11 @@
   .chlist button:hover { background: var(--line); }
   .chlist .cht { color: var(--muted); font-variant-numeric: tabular-nums;
     font-size: .85em; flex: none; width: 3.6em; }
+  .howto { background: var(--card); border: 1px solid var(--line);
+           border-radius: 12px; padding: 1.1rem 1.2rem; font-size: .95rem; }
+  .howto summary { cursor: pointer; font-weight: 700; min-height: 32px; }
+  .howto ol { margin: .75rem 0 .25rem; padding-left: 1.4rem; }
+  .howto li { margin-bottom: .35rem; }
   .fine { color: var(--muted); font-size: .85rem; margin-top: 2.5rem; text-align: center; }
   .volgrid { display: flex; gap: 1.3rem; align-items: flex-start; }
   .volcover { width: 300px; flex: none; border-radius: 6px;
@@ -89,17 +79,12 @@
     .volcover { width: 100%; max-width: none; }
     .volcontent { width: 100%; }
   }
-  @media (max-width: 480px) {
-    .btns { align-items: center; }
-    a.btn:not(.mini) { flex: 1 1 100%; justify-content: center; }
-    span.btn.soon { flex: 1 1 100%; justify-content: center; }
-  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<header>
+<header class="top">
   <h1>Steingrímur Hermannsson — A Biography</h1>
   <p class="sub"><a href="https://en.wikipedia.org/wiki/Steingr%C3%ADmur_Hermannsson"
   target="_blank" rel="noopener">Steingrímur Hermannsson</a> (1928–2010) served twice as
@@ -112,22 +97,22 @@
 <details class="howto">
   <summary>📱 iPhone &amp; iPad — get it in Apple Books instructions</summary>
   <ol>
-    <li>Tap a <strong>📖 read-along</strong> button below — the book is
+    <li>Tap a <strong>Get for Apple Books</strong> button below — the book is
         handed straight to Books, which downloads and opens it.</li>
     <li>If your browser downloads the file instead: in <strong>Safari</strong>, tap
         the <strong>⬇︎ arrow</strong> in the toolbar, then the file name; in
         <strong>Chrome</strong>, tap <strong>⋮ → Downloads</strong>, then the file —
         and choose <strong>Open in Books</strong> (or Share → <strong>Books</strong>).</li>
   </ol>
-  <p style="margin:.5rem 0 0">The read-along edition plays the narration inside
-  Books while the text follows along. The standalone audiobook files (.m4b) are for
+  <p style="margin:.5rem 0 0">The read-along editions play the narration inside
+  Books while the text follows along. The audiobook files (.m4b) are for
   Apple Books on a Mac or audiobook apps like BookPlayer on iPhone.</p>
 </details>
 
 <div id="volumes"></div>
 
-<p class="fine">Free downloads. Files are hosted on GitHub; press play to stream —
-nothing loads until you do.</p>
+<p class="fine">Everything is free. Press play to stream — nothing downloads until
+you ask it to.</p>
 
 </div>
 <script>
@@ -137,68 +122,38 @@ const VOLUMES = [
   {
     title: "Volume 1",
     cover: "/steingrimur/cover-vol1.jpg",
-    audio: [
-      { name: "Narrator edition (Johann)", note: "Icelandic-accented storyteller",
-        file: "Steingrimur_Vol1_Johann_voice.m4b", size: "509 MB", available: true },
-      { name: "Steingrímur's own voice", note: "cloned from his 1980s UN address — the statesman reads his own life, 15.1 h",
-        file: "Steingrimur_Vol1_Steingrimur_voice.m4b", size: "451 MB", available: true },
-      { name: "Bryan's voice", note: "read by the translator, his grandson — with a personal intro, 13.7 h",
-        file: "Steingrimur_Vol1_Bryan_voice.m4b", size: "409 MB", available: true },
+    voices: [
+      { name: "Johann", note: "narrator — Icelandic-accented storyteller",
+        m4b: "Steingrimur_Vol1_Johann_voice.m4b", m4bSize: "509 MB",
+        ra: "v1_johann", raEpub: "Steingrimur_Vol1_ReadAlong_Johann.epub", raSize: "550 MB" },
+      { name: "Steingrímur", note: "his own voice, from his 1980s UN address — 15.1 h",
+        m4b: "Steingrimur_Vol1_Steingrimur_voice.m4b", m4bSize: "451 MB",
+        ra: "v1_stein", raEpub: "Steingrimur_Vol1_ReadAlong_Steingrimur.epub", raSize: "467 MB" },
+      { name: "Bryan", note: "grandson &amp; translator, with a personal intro — 13.7 h",
+        m4b: "Steingrimur_Vol1_Bryan_voice.m4b", m4bSize: "409 MB",
+        ra: "v1_bryan", raEpub: "Steingrimur_Vol1_ReadAlong_Bryan.epub", raSize: "427 MB" },
     ],
-    books: [
-      { label: "Read-along, Bryan's voice",
-        file: "Steingrimur_Vol1_ReadAlong_Bryan.epub", size: "427 MB", available: true },
-      { label: "Read-along, Steingrímur's voice",
-        file: "Steingrimur_Vol1_ReadAlong_Steingrimur.epub", size: "467 MB", available: true },
-      { label: "Read-along, Johann narration",
-        file: "Steingrimur_Vol1_ReadAlong_Johann.epub", size: "550 MB", available: true },
-      { label: "Ebook only — no audio", file: "Steingrimur_Vol1_English.epub",
-        size: "45 MB", available: true },
-    ],
-    browser: [
-      { label: "🔊 Read along — Johann narration", href: "/steingrimur/readalong.html?m=v1_johann" },
-      { label: "🔊 Read along — Steingrímur's voice", href: "/steingrimur/readalong.html?m=v1_stein" },
-      { label: "🔊 Read along — Bryan's voice", href: "/steingrimur/readalong.html?m=v1_bryan" },
-      { label: "📖 Text only", href: "/steingrimur/read.html?v=10&book=Steingrimur_Vol1_English.epub" },
-    ],
-    read: [
-      { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol1_English.epub", size: "45 MB", available: true },
-      { label: "⬇ PDF", file: "Steingrimur_Vol1_English.pdf", size: "47 MB", available: true },
-    ],
-    pdf: "Steingrimur_Vol1_English.pdf",
+    reader: "/steingrimur/read.html?v=10&book=Steingrimur_Vol1_English.epub",
+    epub: ["Steingrimur_Vol1_English.epub", "45 MB"],
+    pdf: ["Steingrimur_Vol1_English.pdf", "47 MB"],
   },
   {
     title: "Volume 2",
     cover: "/steingrimur/cover-vol2.jpg",
-    audio: [
-      { name: "Narrator edition", note: "Icelandic-accented storyteller — 16.7 h",
-        file: "Steingrimur_Vol2_Narrator_voice.m4b", size: "500 MB", available: true },
-      { name: "Steingrímur's own voice", note: "cloned from his 1980s UN address — the statesman reads his own life, 16.5 h",
-        file: "Steingrimur_Vol2_Steingrimur_voice.m4b", size: "494 MB", available: true },
-      { name: "Bryan's voice", note: "read by the translator, his grandson — 15.3 h",
-        file: "Steingrimur_Vol2_Bryan_voice.m4b", size: "456 MB", available: true },
+    voices: [
+      { name: "Narrator", note: "Icelandic-accented storyteller — 16.7 h",
+        m4b: "Steingrimur_Vol2_Narrator_voice.m4b", m4bSize: "500 MB",
+        ra: "v2_narr", raEpub: "Steingrimur_Vol2_ReadAlong_Narrator.epub", raSize: "495 MB" },
+      { name: "Steingrímur", note: "his own voice, from his 1980s UN address — 16.5 h",
+        m4b: "Steingrimur_Vol2_Steingrimur_voice.m4b", m4bSize: "494 MB",
+        ra: "v2_stein", raEpub: "Steingrimur_Vol2_ReadAlong_Steingrimur.epub", raSize: "489 MB" },
+      { name: "Bryan", note: "grandson &amp; translator — 15.3 h",
+        m4b: "Steingrimur_Vol2_Bryan_voice.m4b", m4bSize: "456 MB",
+        ra: "v2_bryan", raEpub: "Steingrimur_Vol2_ReadAlong_Bryan.epub", raSize: "452 MB" },
     ],
-    books: [
-      { label: "Read-along, Bryan's voice",
-        file: "Steingrimur_Vol2_ReadAlong_Bryan.epub", size: "452 MB", available: true, ra: "v2_bryan" },
-      { label: "Read-along, Steingrímur's voice",
-        file: "Steingrimur_Vol2_ReadAlong_Steingrimur.epub", size: "489 MB", available: true, ra: "v2_stein" },
-      { label: "Read-along, narrator",
-        file: "Steingrimur_Vol2_ReadAlong_Narrator.epub", size: "495 MB", available: true, ra: "v2_narr" },
-      { label: "Ebook only — no audio", file: "Steingrimur_Vol2_English.epub",
-        size: "41 MB", available: true },
-    ],
-    browser: [
-      { label: "🔊 Read along — Bryan's voice", href: "/steingrimur/readalong.html?m=v2_bryan" },
-      { label: "🔊 Read along — Steingrímur's voice", href: "/steingrimur/readalong.html?m=v2_stein" },
-      { label: "🔊 Read along — narrator", href: "/steingrimur/readalong.html?m=v2_narr" },
-      { label: "📖 Text only", href: "/steingrimur/read.html?v=10&book=Steingrimur_Vol2_English.epub" },
-    ],
-    read: [
-      { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol2_English.epub", size: "41 MB", available: true },
-      { label: "⬇ PDF", file: "Steingrimur_Vol2_English.pdf", size: "43 MB", available: true },
-    ],
-    pdf: "Steingrimur_Vol2_English.pdf",
+    reader: "/steingrimur/read.html?v=10&book=Steingrimur_Vol2_English.epub",
+    epub: ["Steingrimur_Vol2_English.epub", "41 MB"],
+    pdf: ["Steingrimur_Vol2_English.pdf", "43 MB"],
   },
 ];
 
@@ -207,60 +162,61 @@ function fmt(s) {
   return h ? `${h}:${String(m).padStart(2, "0")}` : `0:${String(m).padStart(2, "0")}`;
 }
 const sz = s => s ? ` <span class="sz">${s}</span>` : "";
+
 document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
   <h2>${v.title}</h2>
   <div class="card">
    <div class="volgrid">
     <img class="volcover" src="${v.cover}" alt="${v.title} book cover" loading="lazy">
     <div class="volcontent">
-    <h3 style="margin-top:0">Listen</h3>
-    ${v.audio.map((a, ai) => `
-      <div class="voice">
-        <span class="vname">${a.name}</span>
-        <span class="vnote"> — ${a.note}</span>
-        ${a.available
-          ? `<audio controls preload="none" id="aud-${vi}-${ai}" src="/steingrimur/audio/${a.file}"></audio>
-             ${(CHAPTERS[a.file] || []).length ? `<details class="chapters"><summary>Chapters — tap to skip ahead</summary>
-               <div class="chlist">${CHAPTERS[a.file].map(c =>
-                 `<button data-aud="aud-${vi}-${ai}" data-t="${c.t}"><span class="cht">${fmt(c.t)}</span><span>${c.title}</span></button>`).join("")}
-               </div></details>` : ""}
-             <div class="btns"><a class="btn ghost mini" href="${BASE + a.file}" download>⬇ Download audiobook (.m4b)${sz(a.size)}</a></div>`
-          : `<div class="btns"><span class="btn soon">Coming soon</span></div>`}
-      </div>`).join("")}
-    <h3>Read in browser</h3>
-    <div class="btns">
-      ${(v.browser || []).map(b =>
-        `<a class="btn mini" href="${b.href}">${b.label}</a>`).join("")}
-    </div>
-    <h3>Apple Books</h3>
-    <div class="btns">
-      ${v.books.map(b => b.available
-        ? `<a class="btn ghost mini" href="${BASE + b.file}" download>📖 ${b.label}${sz(b.size)}</a>`
-        : `<span class="btn soon mini">${b.label} — coming soon</span>`).join("")}
-    </div>
-    <h3>Read</h3>
-    <div class="btns">
-      ${v.read.filter(r => r.available).map(r =>
-        `<a class="btn ghost mini" href="${BASE + r.file}" download>${r.label}${sz(r.size)}</a>`).join("")}
-    </div>
+
+    <section class="blk">
+      <h3>🎧 Listen</h3>
+      <p class="desc">The audiobook, in the voice of your choice. Press play to
+      stream it here, or download the file for your audiobook app.</p>
+      ${v.voices.map((a, ai) => `
+        <div class="voice">
+          <span class="vname">${a.name}</span>
+          <span class="vnote"> — ${a.note}</span>
+          <audio controls preload="none" id="aud-${vi}-${ai}" src="/steingrimur/audio/${a.m4b}"></audio>
+          ${(CHAPTERS[a.m4b] || []).length ? `<details class="chapters"><summary>Chapters — tap to skip ahead</summary>
+            <div class="chlist">${CHAPTERS[a.m4b].map(c =>
+              `<button data-aud="aud-${vi}-${ai}" data-t="${c.t}"><span class="cht">${fmt(c.t)}</span><span>${c.title}</span></button>`).join("")}
+            </div></details>` : ""}
+          <div class="btns"><a class="btn dl" href="${BASE + a.m4b}" download>⬇ Download audiobook${sz(a.m4bSize)}</a></div>
+        </div>`).join("")}
+    </section>
+
+    <section class="blk">
+      <h3>📖 Read</h3>
+      <p class="desc">The ebook — read it right here, or download a copy.</p>
+      <div class="btns">
+        <a class="btn" href="${v.reader}">Read now in your browser</a>
+        <a class="btn dl" data-books="1" href="${BASE + v.epub[0]}" download>⬇ EPUB — for Apple Books &amp; e-readers${sz(v.epub[1])}</a>
+        <a class="btn dl" href="${BASE + v.pdf[0]}" download>⬇ PDF${sz(v.pdf[1])}</a>
+      </div>
+    </section>
+
+    <section class="blk">
+      <h3>🎧📖 Read along</h3>
+      <p class="desc">Listening and reading at once — the narration plays while
+      the text highlights and scrolls along, like a storybook.</p>
+      <div class="btns">
+        ${v.voices.filter(a => a.ra).map(a =>
+          `<a class="btn" href="/steingrimur/readalong.html?m=${a.ra}">▶ ${a.name}'s voice</a>`).join("")}
+      </div>
+      <div class="btns">
+        ${v.voices.filter(a => a.raEpub).map(a =>
+          `<a class="btn dl" data-books="1" href="${BASE + a.raEpub}" download>⬇ Get for Apple Books — ${a.name}${sz(a.raSize)}</a>`).join("")}
+        <span class="hint">The Apple Books versions work offline on iPhone &amp; iPad — see the instructions at the top of the page.</span>
+      </div>
+    </section>
+
     </div>
    </div>
   </div>`).join("");
 
-// iPhone/iPad: hand epubs straight to Apple Books via its URL scheme —
-// Books downloads the file itself, no Safari download + share-sheet dance.
-const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-if (isiOS) {
-  document.querySelectorAll("a[download]").forEach(a => {
-    const m = a.getAttribute("href").match(/\/([^\/]+\.epub)$/);
-    if (m && a.textContent.includes("📖")) {
-      a.href = "itms-bookss://pacbrewlab.com/steingrimur/books/" + m[1];
-      a.removeAttribute("download");
-    }
-  });
-}
-
+// audio: tap a chapter to seek (waits for metadata — required on iOS)
 document.addEventListener("click", e => {
   const b = e.target.closest("button[data-aud]");
   if (!b) return;
@@ -270,6 +226,19 @@ document.addEventListener("click", e => {
   if (aud.readyState >= 1) go();
   else { aud.addEventListener("loadedmetadata", go, { once: true }); aud.load(); }
 });
+
+// iPhone/iPad: hand epubs straight to Apple Books via its URL scheme
+const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+if (isiOS) {
+  document.querySelectorAll("a[data-books]").forEach(a => {
+    const m = a.getAttribute("href").match(/\/([^\/]+\.epub)$/);
+    if (m) {
+      a.href = "itms-bookss://pacbrewlab.com/steingrimur/books/" + m[1];
+      a.removeAttribute("download");
+    }
+  });
+}
 </script>
 </body>
 </html>
