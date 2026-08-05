@@ -62,11 +62,18 @@ const chsel = document.getElementById("chsel");
 const POSKEY = "steingrimur-ra-" + m;
 let units = [], nodes = [], active = -1, userScrollUntil = 0;
 
+// iOS ignores currentTime until metadata is loaded — queue the seek if needed
+function seekTo(t, andPlay) {
+  const go = () => { aud.currentTime = t; if (andPlay) aud.play(); };
+  if (aud.readyState >= 1) go();
+  else { aud.addEventListener("loadedmetadata", go, { once: true }); aud.load(); }
+}
+
 fetch("/steingrimur/ra/" + m + ".json").then(r => {
   if (!r.ok) throw new Error("manifest " + r.status);
   return r.json();
 }).then(data => {
-  aud.src = "/steingrimur/audio/" + data.audio;
+  aud.src = "/steingrimur/audio/" + data.audio + "?r=2";
   units = data.units;
   chsel.innerHTML = "";
   for (const c of data.chapters) {
@@ -86,13 +93,13 @@ fetch("/steingrimur/ra/" + m + ".json").then(r => {
     }
     const p = document.createElement("p");
     p.className = "u"; p.textContent = u.t;
-    p.onclick = () => { aud.currentTime = u.b + 0.01; aud.play(); };
+    p.onclick = () => seekTo(u.b + 0.01, true);
     nodes.push(p); frag.appendChild(p);
   });
   content.appendChild(frag);
   document.getElementById("status").style.display = "none";
   const saved = parseFloat(localStorage.getItem(POSKEY) || "0");
-  if (saved > 5) { aud.currentTime = saved; setTimeout(() => mark(find(saved), false), 300); }
+  if (saved > 5) { seekTo(saved, false); setTimeout(() => mark(find(saved), false), 300); }
 }).catch(e => {
   document.getElementById("status").textContent = "Could not load the read-along (" + e.message + ").";
 });
@@ -127,7 +134,7 @@ aud.addEventListener("timeupdate", () => {
     }
   }
 });
-chsel.addEventListener("change", () => { aud.currentTime = parseFloat(chsel.value) + 0.01; aud.play(); });
+chsel.addEventListener("change", () => seekTo(parseFloat(chsel.value) + 0.01, true));
 addEventListener("wheel", () => { userScrollUntil = Date.now() + 4000; }, { passive: true });
 addEventListener("touchmove", () => { userScrollUntil = Date.now() + 4000; }, { passive: true });
 </script>

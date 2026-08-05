@@ -155,6 +155,9 @@ const VOLUMES = [
       { label: "Ebook only — no audio", file: "Steingrimur_Vol1_English.epub",
         size: "45 MB", available: true },
     ],
+    browser: [
+      { label: "📖 Text only", href: "/steingrimur/read.html?v=10&book=Steingrimur_Vol1_English.epub" },
+    ],
     read: [
       { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol1_English.epub", size: "45 MB", available: true },
       { label: "⬇ PDF", file: "Steingrimur_Vol1_English.pdf", size: "47 MB", available: true },
@@ -181,6 +184,12 @@ const VOLUMES = [
         file: "Steingrimur_Vol2_ReadAlong_Narrator.epub", size: "495 MB", available: true, ra: "v2_narr" },
       { label: "Ebook only — no audio", file: "Steingrimur_Vol2_English.epub",
         size: "41 MB", available: true },
+    ],
+    browser: [
+      { label: "🔊 Read along — Bryan's voice", href: "/steingrimur/readalong.html?m=v2_bryan" },
+      { label: "🔊 Read along — Steingrímur's voice", href: "/steingrimur/readalong.html?m=v2_stein" },
+      { label: "🔊 Read along — narrator", href: "/steingrimur/readalong.html?m=v2_narr" },
+      { label: "📖 Text only", href: "/steingrimur/read.html?v=10&book=Steingrimur_Vol2_English.epub" },
     ],
     read: [
       { label: "⬇ Ebook (.epub)", file: "Steingrimur_Vol2_English.epub", size: "41 MB", available: true },
@@ -215,10 +224,15 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
              <div class="btns"><a class="btn ghost mini" href="${BASE + a.file}" download>⬇ Download audiobook (.m4b)${sz(a.size)}</a></div>`
           : `<div class="btns"><span class="btn soon">Coming soon</span></div>`}
       </div>`).join("")}
+    <h3>Read in browser</h3>
+    <div class="btns">
+      ${(v.browser || []).map(b =>
+        `<a class="btn mini" href="${b.href}">${b.label}</a>`).join("")}
+    </div>
     <h3>Apple Books</h3>
     <div class="btns">
       ${v.books.map(b => b.available
-        ? `<span class="pair"><a class="btn ghost mini" href="${BASE + b.file}" download>📖 ${b.label}${sz(b.size)}</a><a class="btn mini" href="${b.ra ? "/steingrimur/readalong.html?m=" + b.ra : "/steingrimur/read.html?v=9&book=" + v.read[0].file}">${b.ra ? "Read along in browser" : "Read in browser"}</a></span>`
+        ? `<a class="btn ghost mini" href="${BASE + b.file}" download>📖 ${b.label}${sz(b.size)}</a>`
         : `<span class="btn soon mini">${b.label} — coming soon</span>`).join("")}
     </div>
     <h3>Read</h3>
