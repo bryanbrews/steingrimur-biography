@@ -39,7 +39,6 @@
   .voice { margin-bottom: 1.15rem; }
   .voice .vname { font-weight: 700; }
   .voice .vnote { color: var(--muted); font-size: .9rem; }
-  audio { width: 100%; margin-top: .4rem; }
   .btns { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .55rem; align-items: center; }
   a.btn {
     display: inline-flex; align-items: center; gap: .35rem;
@@ -54,16 +53,6 @@
              padding: .35rem .65rem; font-size: .8rem; opacity: .9; }
   .hint { width: 100%; color: var(--muted); font-size: .8rem; margin-top: .5rem;
           font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
-  details.chapters { margin-top: .3rem; font-size: .9rem; }
-  details.chapters summary { cursor: pointer; color: var(--muted); min-height: 30px;
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; }
-  .chlist { display: flex; flex-direction: column; gap: 2px; margin-top: .4rem; }
-  .chlist button { display: flex; gap: .7rem; align-items: baseline; text-align: left;
-    background: none; border: 0; border-radius: 6px; padding: .45rem .5rem;
-    color: var(--ink); font: inherit; cursor: pointer; }
-  .chlist button:hover { background: var(--line); }
-  .chlist .cht { color: var(--muted); font-variant-numeric: tabular-nums;
-    font-size: .85em; flex: none; width: 3.6em; }
   .howto { background: var(--card); border: 1px solid var(--line);
            border-radius: 12px; padding: 1.1rem 1.2rem; font-size: .95rem; }
   .howto summary { cursor: pointer; font-weight: 700; min-height: 32px; }
@@ -111,25 +100,24 @@
 
 <div id="volumes"></div>
 
-<p class="fine">Everything is free. Press play to stream — nothing downloads until
-you ask it to.</p>
+<p class="fine">Everything here is free. The read-alongs play straight in your browser —
+nothing downloads unless you ask for it.</p>
 
 </div>
 <script>
 const BASE = "https://github.com/bryanbrews/steingrimur-biography/releases/download/v1/";
-const CHAPTERS = {"Steingrimur_Vol1_Johann_voice.m4b":[{"t":0.0,"title":"Foreword"},{"t":478.3,"title":"Chapter 1. Fragments of Memory from Childhood"},{"t":6140.9,"title":"Chapter 2. The Years in the Prime Minister's Residence"},{"t":12818.2,"title":"Chapter 3. Sturdy Boys, the War Years, and Girl Troubles"},{"t":18142.1,"title":"Chapter 4. Student Years and Great Ambition"},{"t":24401.5,"title":"Chapter 5. The Promised Land"},{"t":31608.1,"title":"Chapter 6. Years of Enterprise in Iceland"},{"t":37151.1,"title":"Chapter 7. Broken Hopes and the Later American Years"},{"t":43697.9,"title":"Chapter 8. Divorce and the Battle for the Children"},{"t":50852.2,"title":"Chapter 9. Research, Marriage, and Wrestling Bouts"},{"t":56019.9,"title":"Chapter 10. A New Beginning"},{"t":62011.6,"title":"Epilogue"}],"Steingrimur_Vol1_Steingrimur_voice.m4b":[{"t":0.0,"title":"Foreword"},{"t":431.4,"title":"Chapter 1. Fragments of Memory from Childhood"},{"t":5650.4,"title":"Chapter 2. The Years in the Prime Minister's Residence"},{"t":11667.8,"title":"Chapter 3. \"Sturdy Boys\", the War Years and Girl Trouble"},{"t":16252.8,"title":"Chapter 4. Student Years and Great Ambition"},{"t":21663.5,"title":"Chapter 5. The Promised Land"},{"t":27877.8,"title":"Chapter 6. Years of Enterprise in Iceland"},{"t":32627.9,"title":"Chapter 7. Broken Hopes and the Later American Years"},{"t":38365.5,"title":"Chapter 8. Divorce and the Battle for the Children"},{"t":44512.2,"title":"Chapter 9. Research, Marriage, and Wrestling Bouts"},{"t":48969.1,"title":"Chapter 10. A New Beginning"},{"t":54157.6,"title":"Epilogue"}],"Steingrimur_Vol1_Bryan_voice.m4b":[{"t":0.0,"title":"Intro from the Narrator and Grandson, Bryan"},{"t":51.3,"title":"Foreword"},{"t":451.4,"title":"Chapter 1. Fragments of Memory from Childhood"},{"t":4838.4,"title":"Chapter 2. The Years in the Prime Minister's Residence"},{"t":10091.8,"title":"Chapter 3. \"Sturdy Boys\", the War Years and Girl Trouble"},{"t":14326.5,"title":"Chapter 4. Student Years and Great Ambition"},{"t":19218.9,"title":"Chapter 5. The Promised Land"},{"t":24876.5,"title":"Chapter 6. Years of Enterprise in Iceland"},{"t":29267.7,"title":"Chapter 7. Broken Hopes and the Later American Years"},{"t":34530.0,"title":"Chapter 8. Divorce and the Battle for the Children"},{"t":40188.7,"title":"Chapter 9. Research, Marriage, and Wrestling Bouts"},{"t":44303.8,"title":"Chapter 10. A New Beginning"},{"t":49048.2,"title":"Epilogue"}],"Steingrimur_Vol2_Bryan_voice.m4b":[{"t":0.0,"title":"Chapter 1. In My Father's Footsteps"},{"t":5651.4,"title":"Chapter 2. Young Angry Men"},{"t":9868.5,"title":"Chapter 3. Research, Gold and Green Peas"},{"t":12379.7,"title":"Chapter 4. Member of Parliament for the Westfjords"},{"t":16997.2,"title":"Chapter 5. The Reckoning with the Möðruvellingar"},{"t":21221.1,"title":"Chapter 6. Open at Both Ends"},{"t":26897.4,"title":"Chapter 7. The Last Shall Be First"},{"t":32398.3,"title":"Chapter 8. Chairman of the Progressive Party"},{"t":36963.0,"title":"Chapter 9. Anything Is Better than the Conservatives"},{"t":42113.9,"title":"Chapter 10. Transport and the Circus of the Fisheries"},{"t":48370.1,"title":"Chapter 11. Internal Strife and Economic Trouble"},{"t":53637.7,"title":"Chapter 12. A Fateful Reshuffle"},{"t":54436.0,"title":"Epilogue"}],"Steingrimur_Vol2_Narrator_voice.m4b":[{"t":0.0,"title":"Chapter 1. In My Father's Footsteps"},{"t":6128.8,"title":"Chapter 2. Young Angry Men"},{"t":10747.4,"title":"Chapter 3. Research, Gold and Green Peas"},{"t":13490.2,"title":"Chapter 4. Member of Parliament for the Westfjords"},{"t":18562.5,"title":"Chapter 5. The Reckoning with the Möðruvellingar"},{"t":23181.1,"title":"Chapter 6. Open at Both Ends"},{"t":29421.9,"title":"Chapter 7. The Last Shall Be First"},{"t":35475.4,"title":"Chapter 8. Chairman of the Progressive Party"},{"t":40505.4,"title":"Chapter 9. Anything Is Better than the Conservatives"},{"t":46152.2,"title":"Chapter 10. Transport and the Circus of the Fisheries"},{"t":52999.4,"title":"Chapter 11. Internal Strife and Economic Trouble"},{"t":58787.1,"title":"Chapter 12. A Fateful Reshuffle"},{"t":59669.2,"title":"Epilogue"}],"Steingrimur_Vol2_Steingrimur_voice.m4b":[{"t":0.0,"title":"Chapter 1. In My Father's Footsteps"},{"t":6048.8,"title":"Chapter 2. Young Angry Men"},{"t":10617.0,"title":"Chapter 3. Research, Gold and Green Peas"},{"t":13344.7,"title":"Chapter 4. Member of Parliament for the Westfjords"},{"t":18310.9,"title":"Chapter 5. The Reckoning with the Möðruvellingar"},{"t":22890.2,"title":"Chapter 6. Open at Both Ends"},{"t":29034.6,"title":"Chapter 7. The Last Shall Be First"},{"t":34971.6,"title":"Chapter 8. Chairman of the Progressive Party"},{"t":39966.1,"title":"Chapter 9. Anything Is Better than the Conservatives"},{"t":45559.8,"title":"Chapter 10. Transport and the Circus of the Fisheries"},{"t":52319.4,"title":"Chapter 11. Internal Strife and Economic Trouble"},{"t":58045.3,"title":"Chapter 12. A Fateful Reshuffle"},{"t":58902.4,"title":"Epilogue"}]};
 const VOLUMES = [
   {
     title: "Volume 1",
     cover: "/steingrimur/cover-vol1.jpg",
     voices: [
-      { name: "Johann", note: "narrator — Icelandic-accented storyteller",
+      { name: "Johann", note: "a professional narrator with an Icelandic accent", dur: "17.3 h",
         m4b: "Steingrimur_Vol1_Johann_voice.m4b", m4bSize: "509 MB",
         ra: "v1_johann", raEpub: "Steingrimur_Vol1_ReadAlong_Johann.epub", raSize: "550 MB" },
-      { name: "Steingrímur", note: "his own voice, from his 1980s UN address — 15.1 h",
+      { name: "Steingrímur", note: "his own voice, cloned from his 1980s UN address", dur: "15.1 h",
         m4b: "Steingrimur_Vol1_Steingrimur_voice.m4b", m4bSize: "451 MB",
         ra: "v1_stein", raEpub: "Steingrimur_Vol1_ReadAlong_Steingrimur.epub", raSize: "467 MB" },
-      { name: "Bryan", note: "grandson &amp; translator, with a personal intro — 13.7 h",
+      { name: "Bryan", note: "his grandson and translator, with a personal introduction", dur: "13.7 h",
         m4b: "Steingrimur_Vol1_Bryan_voice.m4b", m4bSize: "409 MB",
         ra: "v1_bryan", raEpub: "Steingrimur_Vol1_ReadAlong_Bryan.epub", raSize: "427 MB" },
     ],
@@ -141,13 +129,13 @@ const VOLUMES = [
     title: "Volume 2",
     cover: "/steingrimur/cover-vol2.jpg",
     voices: [
-      { name: "Narrator", note: "Icelandic-accented storyteller — 16.7 h",
+      { name: "Narrator", note: "a professional narrator with an Icelandic accent", dur: "16.7 h",
         m4b: "Steingrimur_Vol2_Narrator_voice.m4b", m4bSize: "500 MB",
         ra: "v2_narr", raEpub: "Steingrimur_Vol2_ReadAlong_Narrator.epub", raSize: "495 MB" },
-      { name: "Steingrímur", note: "his own voice, from his 1980s UN address — 16.5 h",
+      { name: "Steingrímur", note: "his own voice, cloned from his 1980s UN address", dur: "16.5 h",
         m4b: "Steingrimur_Vol2_Steingrimur_voice.m4b", m4bSize: "494 MB",
         ra: "v2_stein", raEpub: "Steingrimur_Vol2_ReadAlong_Steingrimur.epub", raSize: "489 MB" },
-      { name: "Bryan", note: "grandson &amp; translator — 15.3 h",
+      { name: "Bryan", note: "his grandson and translator", dur: "15.3 h",
         m4b: "Steingrimur_Vol2_Bryan_voice.m4b", m4bSize: "456 MB",
         ra: "v2_bryan", raEpub: "Steingrimur_Vol2_ReadAlong_Bryan.epub", raSize: "452 MB" },
     ],
@@ -157,10 +145,6 @@ const VOLUMES = [
   },
 ];
 
-function fmt(s) {
-  const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60);
-  return h ? `${h}:${String(m).padStart(2, "0")}` : `0:${String(m).padStart(2, "0")}`;
-}
 const sz = s => s ? ` <span class="sz">${s}</span>` : "";
 
 document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
@@ -171,25 +155,27 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
     <div class="volcontent">
 
     <section class="blk">
-      <h3>🎧 Listen</h3>
-      <p class="desc">The audiobook, in the voice of your choice. Press play to
-      stream it here, or download the file for your audiobook app.</p>
-      ${v.voices.map((a, ai) => `
+      <h3>🎧📖 Read along — listen and read together</h3>
+      <p class="desc">The narration plays while the text highlights and scrolls
+      along with it. Tap any paragraph to start reading from there. Nothing to
+      download — it opens straight in your browser.</p>
+      ${v.voices.map(a => `
         <div class="voice">
-          <span class="vname">${a.name}</span>
-          <span class="vnote"> — ${a.note}</span>
-          <audio controls preload="none" id="aud-${vi}-${ai}" src="/steingrimur/audio/${a.m4b}"></audio>
-          ${(CHAPTERS[a.m4b] || []).length ? `<details class="chapters"><summary>Chapters — tap to skip ahead</summary>
-            <div class="chlist">${CHAPTERS[a.m4b].map(c =>
-              `<button data-aud="aud-${vi}-${ai}" data-t="${c.t}"><span class="cht">${fmt(c.t)}</span><span>${c.title}</span></button>`).join("")}
-            </div></details>` : ""}
-          <div class="btns"><a class="btn dl" href="${BASE + a.m4b}" download>⬇ Download audiobook${sz(a.m4bSize)}</a></div>
+          <div><span class="vname">${a.name}</span><span class="vnote"> — ${a.note} · ${a.dur} of audio</span></div>
+          <div class="btns">
+            <a class="btn" href="/steingrimur/readalong.html?m=${a.ra}">▶ Read along in ${a.name}'s voice</a>
+            <a class="btn dl" href="${BASE + a.m4b}" download>⬇ Audiobook file${sz(a.m4bSize)}</a>
+            <a class="btn dl" data-books="1" href="${BASE + a.raEpub}" download>⬇ Apple Books read-along${sz(a.raSize)}</a>
+          </div>
         </div>`).join("")}
+      <span class="hint">The audiobook file (.m4b) is for offline listening in an
+      audiobook app. The Apple Books read-along works offline on iPhone &amp; iPad —
+      see the instructions at the top of the page.</span>
     </section>
 
     <section class="blk">
-      <h3>📖 Read</h3>
-      <p class="desc">The ebook — read it right here, or download a copy.</p>
+      <h3>📖 Read — text only</h3>
+      <p class="desc">The ebook without audio — read it right here, or download a copy.</p>
       <div class="btns">
         <a class="btn" href="${v.reader}">Read now in your browser</a>
         <a class="btn dl" data-books="1" href="${BASE + v.epub[0]}" download>⬇ EPUB — for Apple Books &amp; e-readers${sz(v.epub[1])}</a>
@@ -197,35 +183,9 @@ document.getElementById("volumes").innerHTML = VOLUMES.map((v, vi) => `
       </div>
     </section>
 
-    <section class="blk">
-      <h3>🎧📖 Read along</h3>
-      <p class="desc">Listening and reading at once — the narration plays while
-      the text highlights and scrolls along, like a storybook.</p>
-      <div class="btns">
-        ${v.voices.filter(a => a.ra).map(a =>
-          `<a class="btn" href="/steingrimur/readalong.html?m=${a.ra}">▶ ${a.name}'s voice</a>`).join("")}
-      </div>
-      <div class="btns">
-        ${v.voices.filter(a => a.raEpub).map(a =>
-          `<a class="btn dl" data-books="1" href="${BASE + a.raEpub}" download>⬇ Get for Apple Books — ${a.name}${sz(a.raSize)}</a>`).join("")}
-        <span class="hint">The Apple Books versions work offline on iPhone &amp; iPad — see the instructions at the top of the page.</span>
-      </div>
-    </section>
-
     </div>
    </div>
   </div>`).join("");
-
-// audio: tap a chapter to seek (waits for metadata — required on iOS)
-document.addEventListener("click", e => {
-  const b = e.target.closest("button[data-aud]");
-  if (!b) return;
-  const aud = document.getElementById(b.dataset.aud);
-  document.querySelectorAll("audio").forEach(a => { if (a !== aud) a.pause(); });
-  const go = () => { aud.currentTime = +b.dataset.t; aud.play(); };
-  if (aud.readyState >= 1) go();
-  else { aud.addEventListener("loadedmetadata", go, { once: true }); aud.load(); }
-});
 
 // iPhone/iPad: hand epubs straight to Apple Books via its URL scheme
 const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
